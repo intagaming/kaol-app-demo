@@ -1,0 +1,61 @@
+{
+  "name": "kaol-starter",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "prisma": {
+    "seed": "ts-node packages/db/seeds/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^18.6.1",
+    "@types/react": "^17.0.39",
+    "@types/react-native": "^0.67.2",
+    "@typescript-eslint/eslint-plugin": "^5.32.0",
+    "@typescript-eslint/parser": "^5.32.0",
+    "eslint": "^8.11.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.5.1",
+    "ts-node": "^10.9.1",
+    "ttab": "^0.7.2",
+    "turbo": "^1.1.6",
+    "typescript": "^4.7.4"
+  },
+  "scripts": {
+    "dev": "yarn db:dev && turbo run dev --parallel",
+    "native": "cd apps/expo && yarn dev",
+    "web": "cd apps/next && yarn dev",
+    "dev:tabs": "yarn db:dev && run-s tab:web tab:native",
+    "tab:native": "ttab -t 'Expo' yarn native",
+    "tab:web": "ttab -t 'NextJS' npm run web",
+    "build": "turbo run build",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.json",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "clean": "find . -name node_modules -o -name .next -o -name .expo -o -name .turbo -type d -prune | xargs rm -rf",
+    "db:dev": "yarn db:up && yarn db:migrate:dev",
+    "db:up": "docker compose up -d",
+    "db:nuke": "docker compose down --volumes --remove-orphans",
+    "db:reset": "yarn db:nuke && yarn db:dev",
+    "db:migrate:dev": "yarn prisma migrate dev",
+    "db:update": "yarn prisma db push && yarn prisma generate",
+    "db:seed": "yarn prisma db seed",
+    "postinstall": "yarn prisma generate",
+    "prepare": "husky install"
+  },
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=14.0.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json}": [
+      "yarn format"
+    ]
+  },
+  "modulePathIgnorePatterns": [
+    "<rootDir>[/\\\\](build|docs|node_modules|deploy|scripts|.vercel|output)[/\\\\]"
+  ],
+  "type": "module"
+}

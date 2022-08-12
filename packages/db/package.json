@@ -1,0 +1,17 @@
+{
+  "name": "db",
+  "version": "0.0.0",
+  "files": [
+    "index.ts"
+  ],
+  "scripts": {
+    "dev": "prisma studio"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.14.0",
+    "prisma": "^3.14.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^7.3.0"
+  }
+}
